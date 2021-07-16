@@ -1,0 +1,25 @@
+{
+  "name": "HexaMeat-server-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanghae99-clone-coding-HexaMeat/HexaMeat-server-application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hanghae99-clone-coding-HexaMeat/HexaMeat-server-application/issues"
+  },
+  "homepage": "https://github.com/hanghae99-clone-coding-HexaMeat/HexaMeat-server-application#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "express": "^4.17.1",
+    "puppeteer": "^10.1.0"
+  }
+}
