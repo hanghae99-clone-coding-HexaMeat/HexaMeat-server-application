@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const secretKey = require('../config/secretKey');
+const SECRET_KEY = require('../config/secretKey');
 
 module.exports = async (req, res, next) => {
     const { authorization } = req.headers;
@@ -14,8 +14,8 @@ module.exports = async (req, res, next) => {
     }
 
     try {
-        const { nickname } = jwt.verify(tokenValue, secretKey);
-        const foundUser = await User.findOne({ nickname });
+        const { id } = jwt.verify(tokenValue, SECRET_KEY);
+        const foundUser = await User.findOne({ id });
         if (!foundUser) {
             throw new Error('존재하지 않는 유저입니다.');
         }

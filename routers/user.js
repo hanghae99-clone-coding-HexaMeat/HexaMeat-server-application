@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const SHA256 = require('crypto-js/sha256');
 const SECRET_KEY = require('../config/secretKey');
 
-// 회원가입
+// 회원가입 : 성공 시 즉시 토큰 던져줌
 router.post('/register', registerValidator, async (req, res) => {
     let { id, password, nickname } = req.body;
 
