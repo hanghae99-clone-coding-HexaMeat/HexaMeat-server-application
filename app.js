@@ -5,7 +5,8 @@ const mainRouter = require('./routers/index');
 
 connect();
 
-app.use('/', mainRouter);
+app.use('/', express.urlencoded({ extended: false }),
+    express.json(), mainRouter);
 
 app.listen(3000, () => {
     console.log('Hi!');
