@@ -1,57 +1,51 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Joi = require('joi');
 
+// Joi Validator
 const registerValidation = Joi.object({
-    email: Joi.string().email().required(),
-    nickname: Joi.string().alphanum().min(3).trim().required(), //알파벳+숫자, 최소3자이상, 공백제거하고 받음
-    password: Joi.string().min(4).trim().required(), //최소 4자이상, 공백제거하고 받음
+    id: Joi.string()
+        .pattern(new RegExp('^(?=.*[a-zA-Z])(?=.*[0-9]).{5,30}$'))
+        .required(), // 5자 ~ 30자, 영어와 숫자만 허용
+
+    password: Joi.string()
+        .pattern(new RegExp('^(?=.*[a-zA-Z])(?=.*[0-9]).{5,30}$'))
+        .required(), //5자 ~ 30자, 영어와 숫자만 허용
+
     confirmPassword: Joi.ref('password'),
-    image: Joi.string().required(),
+
+    nickname: Joi.string().min(3).max(30).required(), // 3자 ~ 30자
 }).with('password', 'confirmPassword');
 
-//회원가입 벨리데이션
+// 미들웨어 본체
 module.exports = async (req, res, next) => {
     try {
-        const { nickname, email, password, confirmPassword } =
+        const { id, password, nickname } =
             await registerValidation.validateAsync(req.body);
 
-        if (password.includes(nickname)) {
+        if (password.includes(nickname) || password.includes(id)) {
+            // 비밀번호에 닉네임 또는 아이디가 포함되어 있을 경우
             res.status(400).send({
                 errorMessage:
-                    '비밀번호는 닉네임이 포함되지 않도록 설정해주세요',
+                    '비밀번호에는 아이디 또는 닉네임이 포함되지 않도록 설정해주세요.',
             });
             return;
         }
 
-        if (email === password) {
-            res.status(400).send({
-                errorMessage: '이메일과 비밀번호는 동일하게 설정할 수 없습니다',
-            });
-        }
-        // 닉네임 중복검사
-        const existNick = await User.findOne({ nickname });
+        // ID or 닉네임 중복검사
+        const isThereSameIdOrNickname = await User.findOne({
+            $or: [{ nickname }, { id }],
+        });
 
-        if (existNick) {
+        if (isThereSameIdOrNickname) {
             res.status(400).send({
-                errorMessage: '닉네임이 중복되었습니다',
-            });
-            return;
-        }
-
-        // 이메일 중복검사
-        const existemail = await User.findOne({ email });
-
-        if (existemail) {
-            res.status(400).send({
-                errorMessage: '이메일이 중복되었습니다',
+                errorMessage: '이미 존재하는 아이디 또는 닉네임입니다.',
             });
             return;
         }
 
         next();
     } catch (err) {
-        res.status(401).send({
+        res.status(400).send({
             errorMessage: '요청한 형식이 올바르지 않습니다',
         });
         return;
