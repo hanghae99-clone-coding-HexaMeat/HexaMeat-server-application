@@ -21,14 +21,13 @@ const cheerio = require('cheerio');
     const page = await browser.newPage();
     await page.goto('https://www.jeongyookgak.com/list');
     await page.waitForSelector(
-        '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(6)'
+        '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(22)'
     );
     const html = await page.content();
 
     let $ = cheerio.load(html);
     const list = $('section.list-data ul li');
     await list.each(async (i, tag) => {
-        if (i < 6) {
             console.log(i, '!!!!!!!!!!!!!!!!!!!!');
             let imgArr = [];
             let title = $(tag).find('h6').text();
@@ -48,10 +47,6 @@ const cheerio = require('cheerio');
             );
             await page.waitForSelector(
                 '#app > div.app__desktop > div > div:nth-child(2) > section.detail-desc__container > div > div:nth-child(1) > img'
-            );
-            await page.click('#detail-top__option-dropdown-btn');
-            await page.waitForSelector(
-                '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > div > div.detail-top__content-option > div > div'
             );
 
             const html2 = await page.content();
@@ -74,17 +69,14 @@ const cheerio = require('cheerio');
             const detailDesc = $2(
                 '#app > div.app__desktop > div > div:nth-child(2) > section.detail-desc__container > div > div:nth-child(2) > div > div > div'
             ).text();
-            const options = $2(
-                '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > div > div.detail-top__content-option > div > div'
-            ).text();
-            console.log(title, price, imgArr, detailDesc, options);
+
+            console.log(title, price, imgArr, detailDesc);
 
             // await Product.create({title, priceStandard, price, imgArr, detailDesc, category})
             await page.goBack();
             await page.waitForSelector(
-                '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(6) > div > picture > img'
+                '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(22) > div > picture > img'
             );
-        }
     });
 
     // await browser.close();

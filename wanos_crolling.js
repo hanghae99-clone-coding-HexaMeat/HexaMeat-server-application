@@ -37,7 +37,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
         '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul'
     );
     // cheerio 로 ul li 갯수만큼 돌리는게 나을듯
-    for (let i = 1; i < lists.length; i++) {
+    for (let i = 1; i < lists.length+1; i++) {
         console.log(lists.length);
         let selector = `#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(${i}) > div > picture > img`;
         console.log($(selector));
@@ -69,7 +69,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
             '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > picture > img'
         ).attr('src');
         let freeAntibiotic = false;
-        if (title.indexOf('무항생제')) {
+        if (title.includes('무항생제')) {
             freeAntibiotic = true;
         }
 
