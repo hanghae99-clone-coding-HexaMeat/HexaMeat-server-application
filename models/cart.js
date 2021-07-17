@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
 const { Schema } = mongoose;
 
@@ -11,7 +12,7 @@ const CartSchema = new Schema({
         type: String,
         required: true,
     },
-    option: {
+    productOption: {
         type: Array,
         required: true,
     },
@@ -28,5 +29,7 @@ CartSchema.virtual('cartId').get(function () {
 CartSchema.set('toJSON', {
     virtuals: true,
 });
+
+CartSchema.plugin(mongooseLeanVirtuals);
 
 module.exports = mongoose.model('cart', CartSchema);
