@@ -4,9 +4,9 @@
 
 ## 멤버
 
-### - 최완호🤖 @ [wanho9506]()
+### - 최완호🤖 @ [wanho9506](https://github.com/wanho9506)
 
-### - 권규원👽 @ [coffeed-cat]()
+### - 권규원👽 @ [coffeed-cat](https://github.com/coffeed-cat)
 
 </br>
 
