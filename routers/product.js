@@ -7,13 +7,13 @@ const auth = require('../middlewares/auth-Middleware');
 router.get('/category', async (req, res) => {
     const { category } = req.query;
 
-    const result = JSON
-    
+    const result = JSON;
+
     result.pork = await Product.find({ category: '돼지' }).limit(6);
     result.beef = await Product.find({ category: '소' }).limit(6);
     result.checken = await Product.find({ category: '닭' }).limit(6);
-    
-    res.status(200).send({result});
+
+    res.status(200).send({ result });
 
     // if ( category === 'all') {
     //     const result = await Product.find()
@@ -28,9 +28,8 @@ router.get('/category', async (req, res) => {
 router.get('/detail', async (req, res) => {
     try {
         const { productId } = req.query;
-        const result = await Product.findOne({ _id:productId });
-        res.send({result});
-
+        const result = await Product.findOne({ _id: productId });
+        res.send({ result });
     } catch (error) {
         res.status(401).send({ errorMessage: '올바르지 않은 접근' });
     }
