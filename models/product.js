@@ -11,7 +11,7 @@ const ProductSchema = new Schema(
         freeAntibiotic: Boolean,
         category: String,
         detailImage: Array,
-        productInfo: String,
+        productInfo: Array,
         productOption: Array,
     },
     { timestamps: true }
