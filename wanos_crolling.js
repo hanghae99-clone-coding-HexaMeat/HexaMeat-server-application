@@ -1,15 +1,8 @@
 const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const mongoose = require('mongoose');
-const Product = require('./schema');
+const Product = require('./models/product');
 const { next } = require('cheerio/lib/api/traversing');
-
-mongoose.connect('mongodb://localhost:27017/crolling', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -29,6 +22,12 @@ db.on('error', console.error.bind(console, 'connection error:'));
     const contents = await page.content();
     const $ = cheerio.load(contents);
 
+    const categoryUl = $('#app > div.app__desktop > div > div:nth-child(2) > section.list-tab > ul > li')
+    for (let i = 1; i <= 3; i++){ //일단 닭까지만 크롤링
+      page.click(`#app > div.app__desktop > div > div:nth-child(2) > section.list-tab > ul > li:nth-child(${i})`)
+      let category = $(`#app > div.app__desktop > div > div:nth-child(2) > section.list-tab > ul > li:nth-child(${i}) > p`).text();
+    
+
     const lists = $(
         '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li'
     );
@@ -36,6 +35,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
     await page.waitForSelector(
         '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul'
     );
+
     // cheerio 로 ul li 갯수만큼 돌리는게 나을듯
     for (let i = 1; i < lists.length+1; i++) {
         console.log(lists.length);
@@ -69,11 +69,12 @@ db.on('error', console.error.bind(console, 'connection error:'));
             '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > picture > img'
         ).attr('src');
         let freeAntibiotic = false;
-        if (title.includes('무항생제')) {
+
+        if (title.indexOf('무항생제') !== -1) {
             freeAntibiotic = true;
         }
 
-        let category = 'pork';
+        
 
         //상품 상세설명 이미지
         let detailImage = [];
@@ -128,6 +129,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
         await page.goBack();
     }
+  }
 
     await browser.close();
 })();

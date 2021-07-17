@@ -2,31 +2,27 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const productSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
+const ProductSchema = new Schema(
+    {
+        title: String,
+        priceStandard: String,
+        price: Number,
+        image: String,
+        freeAntibiotic: Boolean,
+        category: String,
+        detailImage: Array,
+        productInfo: String,
+        productOption: Array,
     },
-    price: {
-        type: String,
-        required: true,
-    },
-    imgArr: {
-        type: Array,
-        required: true,
-    },
-    detailDesc: {
-        type: String,
-        required: true,
-    },
-});
+    { timestamps: true }
+);
 
-productSchema.virtual('productId').get(function () {
+ProductSchema.virtual('productId').get(function () {
     return this._id.toHexString();
 });
 
-productSchema.set('toJSON', {
+ProductSchema.set('toJSON', {
     virtuals: true,
 });
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model('product', ProductSchema);

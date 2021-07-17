@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-// mongodb://test:test@localhost:27017/awesomeblog?authSource=admin
+// mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin
 
 const connect = () => {
     mongoose
-        .connect('mongodb://localhost:27017/hexameattest', {
+        .connect('mongodb://localhost:27017/HexaMeatDB', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
