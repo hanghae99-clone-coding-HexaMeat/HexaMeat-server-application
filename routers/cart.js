@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
     const { userId } = res.locals.user;
 
     // 진짜 존재하는 상품인지 확인
-    const isThisProductExist = await Product.findByID(productId);
+    const isThisProductExist = await Product.findById(productId);
 
     // 상품이 존재하지 않거나, 해당 옵션이 존재하지 않으면
     // 에러

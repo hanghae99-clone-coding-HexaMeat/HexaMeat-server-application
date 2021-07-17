@@ -9,6 +9,7 @@ const connect = () => {
             useUnifiedTopology: true,
             useCreateIndex: true,
             ignoreUndefined: true,
+            useFindAndModify: false,
         })
         .catch((err) => console.log(err));
 };
