@@ -4,10 +4,13 @@ const mongoose = require('mongoose');
 const Product = require('./models/product');
 const { next } = require('cheerio/lib/api/traversing');
 // mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin
-mongoose.connect('mongodb://localhost:27017/HexaMeatDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect(
+    'mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
+);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
@@ -56,15 +59,18 @@ db.on('error', console.error.bind(console, 'connection error:'));
         //
         for (let i = 1; i <= lists.length; i++) {
             await page.waitForTimeout(500);
-            console.log(lists.length);
+
             let selector = `#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(${i}) > div > picture > img`;
-            console.log($(selector));
+
             if (!$(selector)) {
                 selector = `#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(${i}) > div > div.list-item__block`;
             }
             await page.click(selector);
 
             await page.waitForTimeout(500);
+            await page.waitForSelector(
+                '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > picture > img'
+            );
 
             const content = await page.content();
             const $$ = cheerio.load(content);
@@ -83,7 +89,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
                 .split('/')[0]
                 .replace(',', '')
                 .replace('원', '');
-            let img = $$(
+            let image = $$(
                 '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > picture > img'
             ).attr('src');
             let freeAntibiotic = false;
@@ -138,7 +144,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
                 title,
                 priceStandard,
                 price,
-                img,
+                image,
                 freeAntibiotic,
                 category,
                 detailImage,
@@ -146,7 +152,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
                 productOption,
             });
             product.save();
-            
+
             await page.goBack();
         }
     }
