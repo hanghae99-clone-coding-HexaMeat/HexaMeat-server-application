@@ -5,16 +5,13 @@ const mongoose = require('mongoose');
 
 const connect = () => {
     mongoose
-        .connect(
-            'mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin',
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                useCreateIndex: true,
-                ignoreUndefined: true,
-                useFindAndModify: false,
-            }
-        )
+        .connect('mongodb://localhost:27017/HexaMeatDB', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            ignoreUndefined: true,
+            useFindAndModify: false,
+        })
         .catch((err) => console.log(err));
 };
 

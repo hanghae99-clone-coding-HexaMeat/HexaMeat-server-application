@@ -74,18 +74,17 @@ router.post('/', async (req, res) => {
 
 //수정
 router.patch('/', async (req, res) => {
-
     const { cartId, action } = req.query;
     const { userId } = res.locals.user;
-    console.log(req.query)
+    console.log(req.query);
 
-    const cart = await Cart.findOne({ _id: cartId ,userId });
+    const cart = await Cart.findOne({ _id: cartId, userId });
     const product = await Product.findOne({ _id: cart.productId });
 
     //쿼리로  action 값을 받고,
     //action이 plus이면 수량을 1 추가
     //action이 minus이면 수량을 1 감소
-    console.log(cart)
+    console.log(cart);
 
     if (action === 'plus') {
         cart.quantity += 1;
@@ -94,7 +93,7 @@ router.patch('/', async (req, res) => {
         cart.quantity -= 1;
         cart.save();
     } else {
-        res.status(401).send({ result: '잘못된 접근' }); 
+        res.status(401).send({ result: '잘못된 접근' });
     }
 
     const totalPrice = cart.quantity * product.price;
