@@ -13,6 +13,7 @@ const ProductSchema = new Schema(
         detailImage: Array,
         productInfo: Array,
         productOption: Array,
+        bestProduct: Boolean,
     },
     { timestamps: true }
 );
