@@ -5,10 +5,12 @@ const Cart = require('../models/cart');
 const auth = require('../middlewares/auth-Middleware');
 
 router.get('/', async (req, res) => {
-    const result = JSON;
-    result.pork = await Product.find({ category: '돼지' }).limit(6);
-    result.beef = await Product.find({ category: '소' }).limit(6);
-    result.checken = await Product.find({ category: '닭' }).limit(6);
+    const result = [];
+    const pork = await Product.find({ category: '돼지' }).limit(6);
+    const beef = await Product.find({ category: '소' }).limit(6);
+    const checken = await Product.find({ category: '닭' }).limit(6);
+
+    result.concat(pork, beef, checken);
 
     res.status(200).send({ result });
 
