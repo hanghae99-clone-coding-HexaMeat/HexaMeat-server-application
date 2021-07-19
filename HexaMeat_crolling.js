@@ -65,6 +65,11 @@ db.on('error', console.error.bind(console, 'connection error:'));
             if (!$(selector)) {
                 selector = `#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(${i}) > div > div.list-item__block`;
             }
+
+            let image = $(
+                `#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(${i}) > div > picture > img`
+            ).attr('src');
+
             await page.click(selector);
 
             await page.waitForTimeout(500);
@@ -89,9 +94,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
                 .split('/')[0]
                 .replace(',', '')
                 .replace('원', '');
-            let image = $$(
-                '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > picture > img'
-            ).attr('src');
             let freeAntibiotic = false;
             if (title.indexOf('무항생제') !== -1) {
                 freeAntibiotic = true;
@@ -99,6 +101,11 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
             //상품 상세설명 이미지
             let detailImage = [];
+            detailImage.push(
+                $$(
+                    '#app > div.app__desktop > div > div:nth-child(2) > section.detail-top__wrap > div > div > picture > img'
+                ).attr('src')
+            );
             let detailImages = $$(
                 '#app > div.app__desktop > div > div:nth-child(2) > section.detail-desc__container > div > div'
             );
