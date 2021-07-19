@@ -4,10 +4,13 @@ const mongoose = require('mongoose');
 const Product = require('./models/product');
 const { next } = require('cheerio/lib/api/traversing');
 
-mongoose.connect('mongodb://localhost:27017/HexaMeatDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect(
+    'mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
+);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 

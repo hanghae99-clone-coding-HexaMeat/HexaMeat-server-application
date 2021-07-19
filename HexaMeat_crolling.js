@@ -3,11 +3,14 @@ const cheerio = require('cheerio');
 const mongoose = require('mongoose');
 const Product = require('./models/product');
 const { next } = require('cheerio/lib/api/traversing');
-
-mongoose.connect('mongodb://localhost:27017/HexaMeatDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+// mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin
+mongoose.connect(
+    'mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
+);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
@@ -16,7 +19,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 (async () => {
     const browser = await puppeteer.launch(
-        { headless: false }  ////크로니움 백그라운드에서 실행되게 함 
+        { headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] } ////크로니움 백그라운드에서 실행되게 함
     );
 
     const page = await browser.newPage();
@@ -27,6 +30,9 @@ db.on('error', console.error.bind(console, 'connection error:'));
     });
 
     await page.goto('https://www.jeongyookgak.com/list');
+    await page.waitForSelector(
+        '#app > div.app__desktop > div > div:nth-child(2) > section.list-tab > ul > li'
+    );
 
     const contents = await page.content();
     const $ = cheerio.load(contents);
@@ -36,9 +42,9 @@ db.on('error', console.error.bind(console, 'connection error:'));
     );
     for (let i = 1; i <= 3; i++) {
         //일단 닭까지만 크롤링
-        const clickSelector = `#app > div.app__desktop > div > div:nth-child(2) > section.list-tab > ul > li:nth-child(${i})`
-        page.click(clickSelector)
-        
+        const clickSelector = `#app > div.app__desktop > div > div:nth-child(2) > section.list-tab > ul > li:nth-child(${i})`;
+        page.click(clickSelector);
+
         let category = $(
             `#app > div.app__desktop > div > div:nth-child(2) > section.list-tab > ul > li:nth-child(${i}) > p`
         ).text();
@@ -51,7 +57,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
             '#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul'
         );
         //
-        for (let i = 1; i < lists.length; i++) {
+        for (let i = 1; i <= lists.length; i++) {
+            await page.waitForTimeout(500);
             console.log(lists.length);
             let selector = `#app > div.app__desktop > div > div:nth-child(2) > section.list-data > ul > li:nth-child(${i}) > div > picture > img`;
             console.log($(selector));
@@ -121,18 +128,15 @@ db.on('error', console.error.bind(console, 'connection error:'));
             }
 
             //상품 정보
-            let productInfo = []
+            let productInfo = [];
 
             let productInfos = $$(
                 '#app > div.app__desktop > div > div:nth-child(2) > section.detail-desc__container > div > div:nth-child(2) > div > div > div'
             ).text();
-            let info1 = productInfos.split(".")
-            let info2 = info1[1].split('*')
-            productInfo = [info1[0], info2[0], info2[1]]
-            
+            let info1 = productInfos.split('.');
+            let info2 = info1[1].split('*');
+            productInfo = [info1[0], info2[0], info2[1]];
 
-            
-            
             const product = new Product({
                 title,
                 priceStandard,

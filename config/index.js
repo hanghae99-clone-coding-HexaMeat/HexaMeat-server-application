@@ -1,16 +1,20 @@
 const mongoose = require('mongoose');
 
 // mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin
+// mongodb://localhost:27017/HexaMeatDB
 
 const connect = () => {
     mongoose
-        .connect('mongodb://localhost:27017/HexaMeatDB', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            ignoreUndefined: true,
-            useFindAndModify: false,
-        })
+        .connect(
+            'mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin',
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true,
+                ignoreUndefined: true,
+                useFindAndModify: false,
+            }
+        )
         .catch((err) => console.log(err));
 };
 
