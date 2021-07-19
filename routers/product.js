@@ -4,11 +4,8 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 const auth = require('../middlewares/auth-Middleware');
 
-router.get('/category', async (req, res) => {
-    const { category } = req.query;
-
+router.get('/', async (req, res) => {
     const result = JSON;
-
     result.pork = await Product.find({ category: '돼지' }).limit(6);
     result.beef = await Product.find({ category: '소' }).limit(6);
     result.checken = await Product.find({ category: '닭' }).limit(6);

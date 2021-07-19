@@ -73,10 +73,19 @@ router.post('/', async (req, res) => {
 });
 
 //수정
-router.patch('/cart', async (req, res) => {
+router.patch('/', async (req, res) => {
+
     const { cartId, action } = req.query;
-    const cart = await Cart.findOne({ _id: cartId });
+    const { userId } = res.locals.user;
+    console.log(req.query)
+
+    const cart = await Cart.findOne({ _id: cartId ,userId });
     const product = await Product.findOne({ _id: cart.productId });
+
+    //쿼리로  action 값을 받고,
+    //action이 plus이면 수량을 1 추가
+    //action이 minus이면 수량을 1 감소
+    console.log(cart)
 
     if (action === 'plus') {
         cart.quantity += 1;
@@ -85,7 +94,7 @@ router.patch('/cart', async (req, res) => {
         cart.quantity -= 1;
         cart.save();
     } else {
-        res.status(401).send({ result: '잘못된 접근' });
+        res.status(401).send({ result: '잘못된 접근' }); 
     }
 
     const totalPrice = cart.quantity * product.price;
@@ -93,11 +102,11 @@ router.patch('/cart', async (req, res) => {
     // const { price } = product.price
     // const totalPrice = quantity * price;
 
-    res.status(200).send({ totalPrice });
+    res.status(200).send({ totalPrice }); //장바구니에 담긴 제품의 가격 * 수량
 });
 
 //삭제
-router.delete('/cart', async (req, res) => {
+router.delete('/', async (req, res) => {
     const { cartId } = req.query;
     try {
         await Cart.deleteOne({ _id: cartId });
