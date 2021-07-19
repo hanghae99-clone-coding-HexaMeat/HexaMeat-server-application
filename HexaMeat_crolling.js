@@ -4,13 +4,10 @@ const mongoose = require('mongoose');
 const Product = require('./models/product');
 const { next } = require('cheerio/lib/api/traversing');
 // mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin
-mongoose.connect(
-    'mongodb://test:test@localhost:27017/HexaMeatDB?authSource=admin',
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }
-);
+mongoose.connect('mongodb://localhost:27017/HexaMeatDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
@@ -149,10 +146,18 @@ db.on('error', console.error.bind(console, 'connection error:'));
                 productOption,
             });
             product.save();
-
+            
             await page.goBack();
         }
     }
 
     await browser.close();
+})();
+
+(async () => {
+    const product = await Product.find();
+    for (p of product) {
+        p.bestProduct = false;
+        p.save();
+    }
 })();
