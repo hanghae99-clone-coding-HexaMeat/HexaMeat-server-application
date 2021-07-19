@@ -50,11 +50,6 @@ router.post('/', async (req, res) => {
         return;
     }
 
-    // Cart에 추가할건데,
-    // productId, option 동시에 만족하는걸 찾아서,
-    // 존재하면 거기다가 quantity만큼 수량 Up
-    // 존재하지 않으면 그냥 새로 추가
-
     const productInCart = await Cart.findOne({ productId, productOption });
 
     if (productInCart) {
