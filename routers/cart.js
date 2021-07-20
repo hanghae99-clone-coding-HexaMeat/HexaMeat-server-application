@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
 const Cart = require('../models/cart');
-
+//testCode
 //조회
 router.get('/', async (req, res) => {
     const { userId } = res.locals.user;
