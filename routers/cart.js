@@ -19,7 +19,6 @@ router.get('/', async (req, res) => {
             product.price = productFromProductDB.price;
             product.image = productFromProductDB.image;
             product.priceStandard = productFromProductDB.priceStandard;
-            product.price = productFromProductDB.price;
         }
     }
 
@@ -75,13 +74,13 @@ router.patch('/', async (req, res) => {
 
     const cart = await Cart.findOne({ _id: cartId, userId });
     const product = await Product.findOne({ _id: cart.productId });
-    
+
     //쿼리로  action 값을 받고,
     //action이 plus이면 수량을 1 추가
     //action이 minus이면 수량을 1 감소
     if (!product) {
         res.status(401).send({ result: '잘못된 접근' });
-    } 
+    }
 
     if (action === 'plus') {
         cart.quantity += 1;
@@ -92,7 +91,7 @@ router.patch('/', async (req, res) => {
     } else {
         res.status(401).send({ result: '잘못된 접근' });
     }
-    const quantity = cart.quantity
+    const quantity = cart.quantity;
     res.status(200).send({ quantity }); //장바구니에 해당 품목 수량 (테스트용)
 });
 
