@@ -9,6 +9,8 @@ router.get('/', async (req, res) => {
 
     const productsInCart = await Cart.find({ userId }).lean({ virtuals: true });
 
+    let totalPriceOfCart = 0;
+
     // 각 product들에 productId 이용해서 정보 추가
     if (productsInCart.length > 0) {
         for (product of productsInCart) {
@@ -19,13 +21,16 @@ router.get('/', async (req, res) => {
             product.price = productFromProductDB.price;
             product.image = productFromProductDB.image;
             product.priceStandard = productFromProductDB.priceStandard;
+            product.totalPriceOfProduct =
+                product.quantity * productFromProductDB.price;
+            totalPriceOfCart += product.quantity * productFromProductDB.price;
         }
     }
 
     const cartCount = productsInCart.length;
 
     // 반환
-    res.send({ products: productsInCart, cartCount });
+    res.send({ products: productsInCart, cartCount, totalPriceOfCart });
 });
 
 //추가
