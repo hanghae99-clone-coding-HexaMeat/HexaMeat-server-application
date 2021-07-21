@@ -21,6 +21,9 @@ router.get('/', async (req, res) => {
             product.price = productFromProductDB.price;
             product.image = productFromProductDB.image;
             product.priceStandard = productFromProductDB.priceStandard;
+            product.weight = `${
+                productFromProductDB.priceStandard.split('(')[1].split(')')[0]
+            } 기준`;
             product.totalPriceOfProduct =
                 product.quantity * productFromProductDB.price;
             totalPriceOfCart += product.quantity * productFromProductDB.price;
