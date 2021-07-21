@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
             );
             product.title = productFromProductDB.title;
             product.price = productFromProductDB.price;
-            product.image = productFromProductDB.image;
+            product.image = productFromProductDB.detailImage[0];
             product.priceStandard = productFromProductDB.priceStandard;
             product.weight = `${
                 productFromProductDB.priceStandard.split('(')[1].split(')')[0]
@@ -57,7 +57,11 @@ router.post('/', async (req, res) => {
         return;
     }
 
-    const productInCart = await Cart.findOne({ productId, productOption });
+    const productInCart = await Cart.findOne({
+        productId,
+        productOption,
+        userId,
+    });
 
     if (productInCart) {
         // 이미 같은 옵션을 가진 같은 제품이 있을 경우
