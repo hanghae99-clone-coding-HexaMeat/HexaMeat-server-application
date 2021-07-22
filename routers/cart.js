@@ -38,8 +38,8 @@ router.get('/', async (req, res) => {
 
 //추가
 router.post('/', async (req, res) => {
-    const { productId, productOption } = req.query;
-    const { quantity } = req.body;
+    const { productId } = req.query;
+    const { quantity, productOption } = req.body;
     const { userId } = res.locals.user;
 
     // 진짜 존재하는 상품인지 확인
