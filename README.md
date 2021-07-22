@@ -11,19 +11,20 @@
 </br>
 
 ## API
-|:User:|
+
+### User
 | 기능 | METHOD | URL |
 |------|------|------|
 |로그인|POST|/user/login|
 |회원가입|POST|/user/register|
 
-|:Product:|
+### Product
 | 기능 | METHOD | URL |
 |------|------|------|
 |상품 전체조회|GET|/products|
 |상품 상세조회|GET|/products/detail?productId|
 
-|:Cart:|
+### Cart
 | 기능 | METHOD | URL |
 |------|------|------|
 |상품 장바구니 추가|POST|/cart?productId&productOption|
