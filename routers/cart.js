@@ -104,7 +104,7 @@ router.patch('/', async (req, res) => {
         res.status(401).send({ result: '잘못된 접근' });
     }
     const quantity = cart.quantity;
-    res.status(200).send({ quantity }); //장바구니에 해당 품목 수량 (테스트용)
+    res.status(200).send({}); //장바구니에 해당 품목 수량 (테스트용)
 });
 
 //삭제
@@ -113,7 +113,7 @@ router.delete('/', async (req, res) => {
     const { userId } = res.locals.user;
     try {
         await Cart.deleteOne({ _id: cartId, userId });
-        res.status(200).send({ result: '삭제' });
+        res.status(200).send({});
     } catch (error) {
         res.status(401).send({
             errorMessage: '장바구니에 없는 품목임. 잘못된 접근',
