@@ -12,21 +12,22 @@
 
 ## API
 
-### User
+### User(규원 담당)
 | 기능 | METHOD | URL |
 |------|------|------|
 |로그인|POST|/user/login|
 |회원가입|POST|/user/register|
 
-### Product
+### Product(완호 담당)
 | 기능 | METHOD | URL |
 |------|------|------|
 |상품 전체조회|GET|/products|
 |상품 상세조회|GET|/products/detail?productId|
 
-### Cart
+### Cart(조회, 추가 - 규원 담당)
 | 기능 | METHOD | URL |
 |------|------|------|
+|장바구니 조회|GET|/cart|
 |상품 장바구니 추가|POST|/cart?productId&productOption|
 |상품 장바구니 수정(수량 수정)|PATCH|/cart?cartId&action|
 |상품 장바구니 삭제|DELETE|/cart?cartId|
