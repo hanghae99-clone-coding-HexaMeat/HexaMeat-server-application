@@ -24,9 +24,7 @@
 |상품 전체조회|GET|/products|
 |상품 상세조회|GET|/products/detail?productId|
 
-### Cart
-### (조회, 추가 - 규원 담당)
-### (수정, 삭제 - 완호 담당)
+### Cart (조회, 추가 - 규원 담당) (수정, 삭제 - 완호 담당)
 | 기능 | METHOD | URL |
 |------|------|------|
 |장바구니 조회|GET|/cart|
